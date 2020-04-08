@@ -13,8 +13,8 @@ function create(data, callBack) {
         var sql = `insert into Users(firstName, lastName, email, gender, password, phone) values(?,?,?,?,?,?)`;
         pool.query(sql, 
             [
-                data.first_name,
-                data.last_name,
+                data.firstName,
+                data.lastName,
                 data.email,
                 data.gender,
                 data.password,

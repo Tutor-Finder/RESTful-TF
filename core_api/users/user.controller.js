@@ -19,7 +19,8 @@ function createUser(req, res) {
             // something went wrong
             return res.status(500).json({
               success: 0,
-              message: "Database connection errror"
+              message: "Database connection errror",
+              detailedError: err
             });
           }
 
