@@ -31,28 +31,28 @@ function create(data, callBack) {
     });
 }
 
-// function getUsers(callBack) {
+function getUsers(callBack) {
 
-//     // connect to database
-//     pool.getConnection(function(err) {
+    // connect to database
+    pool.getConnection(function(err) {
 
-//         // Somthing went wrong connecting to mysql database
-//         if(err) throw err;
+        // Somthing went wrong connecting to mysql database
+        if(err) throw err;
         
-//         // run query to insert data into database
-//         var sql = `select firstName, lastName, gender, email, number from registration`;
-//         pool.query(sql, 
-//             [],
-//             (error, results, fields) => {
-//                 if(error) {
-//                     // Somthing went wrong running the sql command
-//                     return callBack(error);
-//                 }
-//                 // Data added to table
-//                 return callBack(null, results);
-//             });
-//     });
-// }
+        // run query to insert data into database
+        var sql = `select firstName, lastName, email, gender, phone from Users`;
+        pool.query(sql, 
+            [],
+            (error, results, fields) => {
+                if(error) {
+                    // Somthing went wrong running the sql command
+                    return callBack(error);
+                }
+                // Data added to table
+                return callBack(null, results);
+            });
+    });
+}
 
 // function getUserById(data, callBack) {
 
@@ -156,8 +156,8 @@ function getUserByEmail(email, callBack) {
 // make availible by other modules
 module.exports = {
     create,
-    getUserByEmail
-//     getUsers,
+    getUserByEmail,
+    getUsers
 //     getUserById,
 //     updateUser,
 //     deleteUser,

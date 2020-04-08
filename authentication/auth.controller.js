@@ -139,6 +139,32 @@ function logout(req, res) {
     })
 }
 
+function validate_token(req, res, next) {
+    console.log("start validate")
+    let token = req.get("authorization")
+    console.log(token)
+    if(token) {
+        token = token.split(" ")[1]
+        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
+            if(err){
+                return res.sendStatus(403)
+            } 
+            else {
+                console.log(data)
+                req.data = data
+                next()
+            }
+            
+
+        })
+    } else {
+        return res.json({
+            success: 0,
+            message: "Invalid or expired token"
+        })
+    }
+}
+
 function generateAccessToken(data, expires, SECRET) {
   if(expires == null) {
     return jwt.sign(data, SECRET)
@@ -150,5 +176,6 @@ function generateAccessToken(data, expires, SECRET) {
 module.exports = {
     login,
     token,
-    logout
+    logout,
+    validate_token
   }

@@ -7,6 +7,7 @@ const { sign } = require("jsonwebtoken");
 // insert to database
 function createUser(req, res) {
         const body = req.body;
+        console.log(body)
         // hash the password
         const salt = genSaltSync(10);
         body.password = hashSync(body.password, salt);
@@ -14,7 +15,7 @@ function createUser(req, res) {
         // insert into database
         userService.create(body, (err, results) => {
           if (err) {
-            console.log(err)
+
             // something went wrong
             return res.status(500).json({
               success: 0,
@@ -51,18 +52,19 @@ function createUser(req, res) {
 //   });
 // }
 
-// function getUsers(req, res) {
-//   userService.getUsers((err, results) => {
-//     if(err) {
-//       console.log(err);
-//       return;
-//     }
-//     return res.json({
-//       success: 1,
-//       data: results
-//     });
-//   });
-// }
+function getUsers(req, res) {
+    console.log("hit")
+  userService.getUsers((err, results) => {
+    if(err) {
+      console.log(err);
+      return;
+    }
+    return res.json({
+      success: 1,
+      data: results
+    });
+  });
+}
 
 // function updateUsers(req, res) {
 //   if(req.user.result[0].id != req.body.id) {
@@ -149,9 +151,9 @@ function createUser(req, res) {
 
 // // make available to other modules
 module.exports = {
-  createUser
-//   getUserById,
-//   getUsers,
+  createUser,
+  getUsers
+  //   getUserById,
 //   updateUsers,
 //   deleteUser,
 //   login
