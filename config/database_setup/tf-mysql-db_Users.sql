@@ -40,11 +40,6 @@ CREATE TABLE `Users` (
 -- Dumping data for table `Users`
 --
 
-LOCK TABLES `Users` WRITE;
-/*!40000 ALTER TABLE `Users` DISABLE KEYS */;
-INSERT INTO `Users` VALUES (1,'Matthew','Garber','matgar1997@gmail.com','m','9083974027','$2b$10$mNcViYUBNPWgqXD.hPZadu2CdbvEMfzOnJagtYdA9J0Bn2swp4kXa',NULL),(3,'Ilyse','Odesky','drilyseodesky@gmail.com','f','9082941441','$2b$10$YGvCMu/UPJQc2jElKzCcHuHjkZ/AE.M4tNiCG5D62oOwCxmOAuM2K',NULL);
-/*!40000 ALTER TABLE `Users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
