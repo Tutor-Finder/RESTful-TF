@@ -68,27 +68,28 @@ function getUsers(req, res) {
   });
 }
 
-function updateUsers(req, res) {
-  if(req.user.result[0].id != req.body.id) {
-    return res.json({
-      success: 0,
-      message: "Invalid acces to that account"
-    })
-  }
-  const body = req.body;
-  const salt = genSaltSync(10);
-  body.password = hashSync(body.password, salt);
-  userService.updateUser(body, (err, results) => {
-    if(err) {
-      console.log(err);
-      return;
-    }
-    return res.json({
-      success: 1,
-      message: "updated succesfully"
-    });
-  });
-}
+// function updateUsers(req, res) {
+//   console.log(req.data)
+//   if(req.user.result[0].id != req.body.id) {
+//     return res.json({
+//       success: 0,
+//       message: "Invalid acces to that account"
+//     })
+//   }
+//   const body = req.body;
+//   const salt = genSaltSync(10);
+//   body.password = hashSync(body.password, salt);
+//   userService.updateUser(body, (err, results) => {
+//     if(err) {
+//       console.log(err);
+//       return;
+//     }
+//     return res.json({
+//       success: 1,
+//       message: "updated succesfully"
+//     });
+//   });
+// }
 
 // function deleteUser(req, res) {
 //   if(req.user.result[0].id != req.body.id) {
@@ -155,8 +156,8 @@ function updateUsers(req, res) {
 module.exports = {
   createUser,
   getUsers,
-  getUserById,
-  updateUsers
+  getUserById
+  //updateUsers
 //   deleteUser,
 //   login
 }

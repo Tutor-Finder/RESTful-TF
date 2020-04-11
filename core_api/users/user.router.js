@@ -9,7 +9,7 @@ const router = require("express").Router();
 router.post("/", userController.createUser); 
 router.get("/", auth.validate_token, userController.getUsers);   
 router.get("/:id", auth.validate_token, userController.getUserById); 
-router.patch("/", auth.validate_token, userController.updateUsers); 
+//router.patch("/", auth.validate_token, userController.updateUsers); 
 // router.delete("/", checkTokenUser, userController.deleteUser); 
 // router.post("/login", userController.login);
 
