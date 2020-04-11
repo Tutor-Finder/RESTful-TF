@@ -43,14 +43,11 @@ const jwt = require("jsonwebtoken");
 // })
 
 function login(req, res) {
-    console.log("hit 1")
   const body = req.body;
   userService.getUserByEmail(body.email, (err, results) => {
-    console.log("hit 2")
     if(err) {
       return;
     }
-    console.log("hit 3")
 
     if(results === undefined || results.length == 0) {
       return res.json({
@@ -58,16 +55,13 @@ function login(req, res) {
         message: "Invaild email or password"
       });
     }
-    console.log("hit 4")
     const result = compareSync(body.password, results[0].password);
-    console.log("hit 5 - result: ", result)
 
     if(result) {
       results.password = undefined;
     //   const jsontoken = sign({result: results}, process.env.ACCESS_TOKEN_SECRET, {
     //     expiresIn: "10m"
     //   });
-    console.log(results[0])
     data = {
         firstName: results[0].firstName,
         lastName: results[0].lastName,
@@ -75,12 +69,9 @@ function login(req, res) {
     }
       const accessToken = generateAccessToken( data, "10m", process.env.ACCESS_TOKEN_SECRET )
       const refreshToken = generateAccessToken( data, null, process.env.REFRESH_TOKEN_SECRET )
-      console.log("hit 6")
+
       authService.setRefreshToken(results[0].id, refreshToken, (err, completion) => {
-         console.log("hit 7")
-         console.log(err)
           if(err) return res.sendStatus(403)
-          console.log("hit 8")
           return res.json({
               success: 1,
               message: "login success",
@@ -98,7 +89,6 @@ function login(req, res) {
 }
 
 function token(req, res) {
-    console.log("thi")
     const refreshToken = req.body.token
     if(refreshToken == null) return res.sendStatus(401)
     authService.getUserByRefreshToken(refreshToken, (err, completion) => {
@@ -106,7 +96,6 @@ function token(req, res) {
         if(completion.length == 0) return res.sendStatus(403)
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (ver_err, data) => {
             if(ver_err) return res.sendStatus(403)
-            console.log(data)
             newData = {
                 firstName: data.firstName,
                 lastName: data.lastName,
@@ -125,12 +114,9 @@ function logout(req, res) {
     const body = req.body
     userService.getUserByEmail(body.email, (err, completion) => {
         if(err) return res.sendStatus(403)
-        console.log(completion.length == 0)
         if(completion.length == 0) return res.sendStatus(403)
-        console.log(completion)
         authService.setRefreshToken(completion[0].id, null, (err, setNullCompletion) => {
             if(err) return res.sendStatus(403)
-            console.log(setNullCompletion)
             if(setNullCompletion.changedRows == 0) {
                 return res.sendStatus(403)
             }
@@ -139,10 +125,9 @@ function logout(req, res) {
     })
 }
 
+
 function validate_token(req, res, next) {
-    console.log("start validate")
     let token = req.get("authorization")
-    console.log(token)
     if(token) {
         token = token.split(" ")[1]
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
@@ -150,7 +135,6 @@ function validate_token(req, res, next) {
                 return res.sendStatus(403)
             } 
             else {
-                console.log(data)
                 req.data = data
                 next()
             }

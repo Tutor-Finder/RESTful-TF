@@ -32,26 +32,27 @@ function createUser(req, res) {
         });
 }
 
-// function getUserById(req, res) {
-//   const id = req.params.id
-//   userService.getUserById(id, (err, results) =>{
-//     if(err) {
-//       console.log(err);
-//       return;
-//     }
+function getUserById(req, res) {
+  console.log(req.data)
+  const id = req.params.id
+  userService.getUserById(id, (err, results) =>{
+    if(err) {
+      console.log(err);
+      return;
+    }
 
-//     if(!results) {
-//       return res.json({
-//         success: 0,
-//         message: "Record not found"
-//       });
-//     }
-//     return res.json({
-//       success: 1,
-//       data: results
-//     });
-//   });
-// }
+    if(!results) {
+      return res.json({
+        success: 0,
+        message: "Record not found"
+      });
+    }
+    return res.json({
+      success: 1,
+      data: results
+    });
+  });
+}
 
 function getUsers(req, res) {
     console.log("hit")
@@ -67,27 +68,27 @@ function getUsers(req, res) {
   });
 }
 
-// function updateUsers(req, res) {
-//   if(req.user.result[0].id != req.body.id) {
-//     return res.json({
-//       success: 0,
-//       message: "Invalid acces to that account"
-//     })
-//   }
-//   const body = req.body;
-//   const salt = genSaltSync(10);
-//   body.password = hashSync(body.password, salt);
-//   userService.updateUser(body, (err, results) => {
-//     if(err) {
-//       console.log(err);
-//       return;
-//     }
-//     return res.json({
-//       success: 1,
-//       message: "updated succesfully"
-//     });
-//   });
-// }
+function updateUsers(req, res) {
+  if(req.user.result[0].id != req.body.id) {
+    return res.json({
+      success: 0,
+      message: "Invalid acces to that account"
+    })
+  }
+  const body = req.body;
+  const salt = genSaltSync(10);
+  body.password = hashSync(body.password, salt);
+  userService.updateUser(body, (err, results) => {
+    if(err) {
+      console.log(err);
+      return;
+    }
+    return res.json({
+      success: 1,
+      message: "updated succesfully"
+    });
+  });
+}
 
 // function deleteUser(req, res) {
 //   if(req.user.result[0].id != req.body.id) {
@@ -153,9 +154,9 @@ function getUsers(req, res) {
 // // make available to other modules
 module.exports = {
   createUser,
-  getUsers
-  //   getUserById,
-//   updateUsers,
+  getUsers,
+  getUserById,
+  updateUsers
 //   deleteUser,
 //   login
 }
