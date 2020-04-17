@@ -4,47 +4,9 @@ const userService = require("../core_api/users/user.service");
 const { genSaltSync, hashSync, compareSync } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// let refreshTokens = []
-
-// app.post('/token', (req, res) => {
-//     const refreshToken = req.body.token
-//     if (refreshToken == null) return res.sendStatus(401)
-//     // data = database call select id from Users where refreshToken = ?
-//     // if data empty then return res.sendStatus(401)
-//     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-//         if(err) return res.sendStatus(403)
-//         const accessToken = generateAccessToken(/** User */);
-//         res.json({accessToken: accessToken});
-//     })
-// })
-
-
-// app.delete('/logout', (req, res) => {
-//     // sql update Users set refreshToken=NULL where refreshToken = ? [req.body.token]
-//     res.sendStatus(204)
-// })
-
-
-// app.post('/login', (req, res) => {
-//     // authenticate user
-    
-// })
-
-// app.post('/login', (req, res) => {
-//   // Authenticate User
-
-//   const username = req.body.username
-//   const user = { name: username }
-
-//   const accessToken = generateAccessToken(user)
-//   const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
-//   refreshTokens.push(refreshToken)
-//   res.json({ accessToken: accessToken, refreshToken: refreshToken })
-// })
-
 function login(req, res) {
   const body = req.body;
-  userService.getUserByEmail(body.email, (err, results) => {
+  userService.getUserByEmail(body, (err, results) => {
     if(err) {
       return;
     }
@@ -112,7 +74,9 @@ function token(req, res) {
 
 function logout(req, res) {
     const body = req.body
-    userService.getUserByEmail(body.email, (err, completion) => {
+    userService.getUserByEmail(body, (err, completion) => {
+      console.log(err)
+      console.log(completion)
         if(err) return res.sendStatus(403)
         if(completion.length == 0) return res.sendStatus(403)
         authService.setRefreshToken(completion[0].id, null, (err, setNullCompletion) => {
@@ -128,10 +92,13 @@ function logout(req, res) {
 
 function validate_token(req, res, next) {
     let token = req.get("authorization")
+    
     if(token) {
         token = token.split(" ")[1]
+        console.log(token)
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, data) => {
             if(err){
+              console.log(err)
                 return res.sendStatus(403)
             } 
             else {
