@@ -59,7 +59,6 @@ function getUserById(req, res) {
 }
 
 function getUsers(req, res) {
-    console.log("hit")
   userService.getUsers((err, results) => {
     if(err) {
       console.log(err);

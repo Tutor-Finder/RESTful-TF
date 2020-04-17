@@ -15,7 +15,7 @@ function create(data, callBack) {
 }
 
 function getUsers(callBack) {
-    var sql = `select firstName, lastName, email, gender, phone from Users`;
+    var sql = `select firstName, lastName, email, gender from Users`;
     my_values = []
     database.queryDB(sql, my_values, callBack)
 }
